@@ -30,7 +30,24 @@
     :root { --accent:#2B6CB0; --text:#1f2937; --muted:#6b7280; --rule:#e5e7eb; --bg:#f8fafc; }
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
     body{line-height:1.65; font-size:24px;}
-    .wrap{max-width:700px;margin:24px auto;padding:0 16px}
+
+    /* Two-column layout */
+    .wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    /* On mobile stack vertically */
+    @media (max-width: 768px) {
+      .wrap { grid-template-columns: 1fr; }
+      .preview-panel { order: 2; margin-top: 20px; }
+    }
+
     .panel{background:#ffffff;border:1px solid var(--rule);border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.03)}
     .panel .hd{padding:12px 14px;border-bottom:1px solid var(--rule);font-weight:600;color:#2B6CB0}
     .panel .bd{padding:14px}
@@ -45,6 +62,7 @@
 <body>
 
 <div class="wrap">
+  <!-- LEFT: Form -->
   <section class="panel form-panel">
     <div class="hd">CV builder - Free tool by LessonFeedback.com</div>
     <div class="bd">
@@ -137,6 +155,21 @@
       </div>
     </div>
   </section>
+
+  <!-- RIGHT: Sample Preview -->
+  <aside class="panel preview-panel">
+    <div class="hd"><p style="font-size:12px; color:#9ca3af; margin-top:4px;">
+Sample CV – demo only (photo is AI-generated).
+</p>
+</div>
+    <div class="bd" style="text-align:center;">
+      <img src="./lesson-feedback-freetool.jpg" alt="Sample CV Preview" 
+           style="max-width:100%; border:1px solid #e5e7eb; border-radius:8px;">
+      <p style="font-size:14px; color:#6b7280; margin-top:8px;">
+        This is a preview of the PDF style you’ll download.
+      </p>
+    </div>
+  </aside>
 </div>
 
 <!-- pdfmake -->
@@ -173,21 +206,20 @@
     const file = $('f_photo').files?.[0];
     if (file) photoDataUrl = await fileToDataURL(file);
 
-    // Build contact text: always one field per line
+    // Build contact text
     let contactText = '';
     if (email) contactText += email + '\n';
     if (phone) contactText += phone + '\n';
     if (loc)   contactText += loc;
     contactText = contactText.trim();
 
-    // Header block (with or without photo)
+    // Header block
     let headerBlock;
     if (photoDataUrl) {
       headerBlock = {
         columns: [
           { image: photoDataUrl, width: 90, height: 110, margin: [0, 0, 12, 0] },
-          {
-            stack: [
+          { stack: [
               { text: name, style: 'name' },
               { text: role, style: 'role' },
               { text: contactText, style: 'meta', margin: [0, 4, 0, 0] }
@@ -208,31 +240,25 @@
       };
     }
 
-    // Experience (NO bullets; tight line spacing inside each role)
+    // Experience
     const expStack = [];
-for (let i = 1; i <= 3; i++) {
-  const t = $('f_e' + i + '_title').value;
-  const c = $('f_e' + i + '_comp').value;
-  const d = $('f_e' + i + '_dates').value;
-  const resp = lines($('f_e' + i + '_resp').value);
+    for (let i = 1; i <= 3; i++) {
+      const t = $('f_e' + i + '_title').value;
+      const c = $('f_e' + i + '_comp').value;
+      const d = $('f_e' + i + '_dates').value;
+      const resp = lines($('f_e' + i + '_resp').value);
 
-  if (t || c || d || resp.length) {
-    expStack.push({
-      stack: [
-        { text: t || '', style: 'jobTitle' },
-        { text: [c, d].filter(Boolean).join(' · '), style: 'meta', margin: [0, 1, 0, 6] },  // Adjusted spacing
-        { 
-          text: resp.join('\n'),
-          style: 'tight',
-          margin: [0, 0, 0, 10],  // More spacing between each line in the responsibilities
-          alignment: 'left'  // Align text to the left for better structure
-        }
-      ],
-      margin: [0, 0, 0, 20]  // Increase gap between jobs
-    });
-  }
-}
-
+      if (t || c || d || resp.length) {
+        expStack.push({
+          stack: [
+            { text: t || '', style: 'jobTitle' },
+            { text: [c, d].filter(Boolean).join(' · '), style: 'meta', margin: [0, 1, 0, 6] },
+            { text: resp.join('\n'), style: 'tight', margin: [0, 0, 0, 10], alignment: 'left' }
+          ],
+          margin: [0, 0, 0, 20]
+        });
+      }
+    }
 
     // Education
     const eduStack = [];
@@ -253,20 +279,20 @@ for (let i = 1; i <= 3; i++) {
       }
     }
 
-    // Sidebar (NO bullets; more gap after titles; tighter lines inside sections)
+    // Sidebar
     const skills = lines($('f_skills').value);
-    const langs = lines($('f_langs').value);
-    const other = $('f_other').value || '';
+    const langs  = lines($('f_langs').value);
+    const other  = $('f_other').value || '';
 
     const columns = [
       {
         width: '34%',
         stack: [
-          { text: 'Skills', style: 'sideSection', margin: [0, 20, 0, 3] }, // ↑ bigger gap after title
-          ...(skills.length ? skills.map(s => ({ text: s, style: 'sideTight', margin: [0, 0, 0, 0] })) : []), // ↓ tighter per-line
+          { text: 'Skills', style: 'sideSection', margin: [0, 20, 0, 3] },
+          ...(skills.length ? skills.map(s => ({ text: s, style: 'sideTight' })) : []),
 
-          { text: 'Languages', style: 'sideSection', margin: [0, 20, 0, 3] }, // ↑ more space before + after title
-          ...(langs.length ? langs.map(l => ({ text: l, style: 'sideTight', margin: [0, 0, 0, 3] })) : []),
+          { text: 'Languages', style: 'sideSection', margin: [0, 20, 0, 3] },
+          ...(langs.length ? langs.map(l => ({ text: l, style: 'sideTight' })) : []),
 
           { text: 'Additional Info', style: 'sideSection', margin: [0, 20, 0, 3] },
           { text: other, style: 'sideTight' }
@@ -289,13 +315,13 @@ for (let i = 1; i <= 3; i++) {
       content: [
         headerBlock,
         { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: '#e5e7eb' }], margin: [0, 6, 0, 10] },
-        { columns, columnGap: 3 }
+        { columns, columnGap: 12 }
       ],
       styles: {
         name: { fontSize: 28, bold: true },
         role: { fontSize: 15, margin: [0, 2, 0, 8] },
         section: { fontSize: 15, bold: true, color: '#2B6CB0' },
-        sideSection: { fontSize: 15, bold: true, color: '#2B6CB0' }, // smaller sidebar titles
+        sideSection: { fontSize: 15, bold: true, color: '#2B6CB0' },
         jobTitle: { fontSize: 14, bold: true },
         meta: { fontSize: 10.5, color: '#6b7280' },
         body: { fontSize: 10.5, lineHeight: 1.2 },
@@ -311,6 +337,12 @@ for (let i = 1; i <= 3; i++) {
     pdfMake.createPdf(docDef).download('One-Page-CV.pdf');
   }
 </script>
+
+</body>
+</html>
+
+
+
 
 
 
