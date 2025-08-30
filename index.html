@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>One-Page CV ▪ Free (LessonFeedback)</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.png" type="image/png">
+
+  <!-- SEO -->
+  <meta name="description" content="Free one-page CV generator. Fill in your details and download a polished PDF CV instantly. No signup required.">
+  <meta name="keywords" content="CV, resume, generator, free, PDF, one page, online tool">
+  <meta name="author" content="LessonFeedback.com">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="One-Page CV Generator – Free Tool">
+  <meta property="og:description" content="Fill out the form and download a professional one-page CV as PDF. 100% free.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cvmaker.lessonfeedback.com">
+  <meta property="og:image" content="https://cvmaker.lessonfeedback.com/favicon.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="One-Page CV Generator – Free Tool">
+  <meta name="twitter:description" content="Fill in your details and download a polished PDF CV instantly.">
+  <meta name="twitter:image" content="https://cvmaker.lessonfeedback.com/favicon.png">
+
+  <style>
+    :root { --accent:#2B6CB0; --text:#1f2937; --muted:#6b7280; --rule:#e5e7eb; --bg:#f8fafc; }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    body{line-height:1.65; font-size:24px;}
+    .wrap{max-width:700px;margin:24px auto;padding:0 16px}
+    .panel{background:#ffffff;border:1px solid var(--rule);border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.03)}
+    .panel .hd{padding:12px 14px;border-bottom:1px solid var(--rule);font-weight:600;color:#2B6CB0}
+    .panel .bd{padding:14px}
+    label{display:block;font-size:22px;color:var(--muted);margin:12px 0 6px}
+    input,textarea,button{width:100%;box-sizing:border-box}
+    input,textarea{border:1px solid var(--rule);border-radius:8px;padding:10px 12px;font-size:15px;background:#fdfeff}
+    textarea{min-height:72px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-weight:600;cursor:pointer}
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <section class="panel form-panel">
+    <div class="hd">CV builder - Free tool by LessonFeedback.com</div>
+    <div class="bd">
+      <label>Name</label>
+      <input id="f_name" placeholder="John Smith">
+
+      <label>Job title / role</label>
+      <input id="f_role" placeholder="Software Engineer">
+
+      <label>Photo (JPG/PNG)</label>
+      <input id="f_photo" type="file" accept="image/*">
+
+      <div class="row">
+        <div>
+          <label>Email</label>
+          <input id="f_email" type="email" placeholder="you@example.com">
+        </div>
+        <div>
+          <label>Phone</label>
+          <input id="f_phone" placeholder="+44 7700 900000">
+        </div>
+      </div>
+
+      <label>City, Country</label>
+      <input id="f_loc" placeholder="London, UK">
+
+      <hr style="border:none;border-top:1px solid var(--rule);margin:14px 0">
+
+      <label>Job title 1</label>
+      <input id="f_e1_title" placeholder="Project Manager">
+      <label>Company & location</label>
+      <input id="f_e1_comp" placeholder="ABC Corp, London">
+      <label>Dates</label>
+      <input id="f_e1_dates" placeholder="2022 – 2024">
+      <label>Responsibilities (1 per line)</label>
+      <textarea id="f_e1_resp"></textarea>
+
+      <label>Job title 2</label>
+      <input id="f_e2_title">
+      <label>Company & location</label>
+      <input id="f_e2_comp">
+      <label>Dates</label>
+      <input id="f_e2_dates">
+      <label>Responsibilities</label>
+      <textarea id="f_e2_resp"></textarea>
+
+      <label>Job title 3</label>
+      <input id="f_e3_title">
+      <label>Company & location</label>
+      <input id="f_e3_comp">
+      <label>Dates</label>
+      <input id="f_e3_dates">
+      <label>Responsibilities</label>
+      <textarea id="f_e3_resp"></textarea>
+
+      <hr style="border:none;border-top:1px solid var(--rule);margin:14px 0">
+
+      <label>Education 1 — Degree / Course</label>
+      <input id="f_ed1_deg" placeholder="BSc in Computer Science">
+      <label>Institution</label>
+      <input id="f_ed1_inst" placeholder="Imperial College London">
+      <label>Location</label>
+      <input id="f_ed1_loc" placeholder="London, UK">
+      <label>Dates</label>
+      <input id="f_ed1_dates" placeholder="2018 – 2022">
+
+      <label>Education 2 — Degree / Course</label>
+      <input id="f_ed2_deg">
+      <label>Institution</label>
+      <input id="f_ed2_inst">
+      <label>Location</label>
+      <input id="f_ed2_loc">
+      <label>Dates</label>
+      <input id="f_ed2_dates">
+
+      <hr style="border:none;border-top:1px solid var(--rule);margin:14px 0">
+
+      <label>Skills (one per line)</label>
+      <textarea id="f_skills"></textarea>
+
+      <label>Languages (one per line)</label>
+      <textarea id="f_langs"></textarea>
+
+      <label>Additional information</label>
+      <textarea id="f_other"></textarea>
+
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn" type="button" onclick="printCV()">Download PDF</button>
+        <button class="btn" type="button" style="background:#374151" onclick="resetForm()">Reset</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- pdfmake -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const lines = v => (v || "").split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+
+  function resetForm() {
+    document.querySelectorAll('input[type=text],input[type=email],textarea').forEach(i => i.value = '');
+    $('f_photo').value = '';
+  }
+
+  function fileToDataURL(file) {
+    return new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onerror = rej;
+      fr.onload = () => res(fr.result);
+      fr.readAsDataURL(file);
+    });
+  }
+
+  async function buildDocDef() {
+    const name = $('f_name').value || 'Your Name';
+    const role = $('f_role').value || 'Job Title';
+    const phone = $('f_phone').value || '';
+    const email = $('f_email').value || '';
+    const loc = $('f_loc').value || '';
+
+    // Photo (optional)
+    let photoDataUrl = null;
+    const file = $('f_photo').files?.[0];
+    if (file) photoDataUrl = await fileToDataURL(file);
+
+    // Build contact text: always one field per line
+    let contactText = '';
+    if (email) contactText += email + '\n';
+    if (phone) contactText += phone + '\n';
+    if (loc)   contactText += loc;
+    contactText = contactText.trim();
+
+    // Header block (with or without photo)
+    let headerBlock;
+    if (photoDataUrl) {
+      headerBlock = {
+        columns: [
+          { image: photoDataUrl, width: 90, height: 110, margin: [0, 0, 12, 0] },
+          {
+            stack: [
+              { text: name, style: 'name' },
+              { text: role, style: 'role' },
+              { text: contactText, style: 'meta', margin: [0, 4, 0, 0] }
+            ]
+          }
+        ],
+        columnGap: 12,
+        margin: [0, 0, 0, 8]
+      };
+    } else {
+      headerBlock = {
+        stack: [
+          { text: name, style: 'name', alignment: 'left' },
+          { text: role, style: 'role', alignment: 'left' },
+          { text: contactText, style: 'meta', margin: [0, 4, 0, 0], alignment: 'left' }
+        ],
+        margin: [0, 0, 0, 8]
+      };
+    }
+
+    // Experience (NO bullets; tight line spacing inside each role)
+    const expStack = [];
+for (let i = 1; i <= 3; i++) {
+  const t = $('f_e' + i + '_title').value;
+  const c = $('f_e' + i + '_comp').value;
+  const d = $('f_e' + i + '_dates').value;
+  const resp = lines($('f_e' + i + '_resp').value);
+
+  if (t || c || d || resp.length) {
+    expStack.push({
+      stack: [
+        { text: t || '', style: 'jobTitle' },
+        { text: [c, d].filter(Boolean).join(' · '), style: 'meta', margin: [0, 1, 0, 6] },  // Adjusted spacing
+        { 
+          text: resp.join('\n'),
+          style: 'tight',
+          margin: [0, 0, 0, 10],  // More spacing between each line in the responsibilities
+          alignment: 'left'  // Align text to the left for better structure
+        }
+      ],
+      margin: [0, 0, 0, 20]  // Increase gap between jobs
+    });
+  }
+}
+
+
+    // Education
+    const eduStack = [];
+    for (let i = 1; i <= 2; i++) {
+      const dg = $('f_ed' + i + '_deg').value;
+      const inst = $('f_ed' + i + '_inst').value;
+      const lc = $('f_ed' + i + '_loc').value;
+      const dt = $('f_ed' + i + '_dates').value;
+
+      if (dg || inst || lc || dt) {
+        eduStack.push({
+          stack: [
+            { text: dg || '', style: 'jobTitle' },
+            { text: [inst, lc, dt].filter(Boolean).join(' · '), style: 'meta' }
+          ],
+          margin: [0, 0, 0, 12]
+        });
+      }
+    }
+
+    // Sidebar (NO bullets; more gap after titles; tighter lines inside sections)
+    const skills = lines($('f_skills').value);
+    const langs = lines($('f_langs').value);
+    const other = $('f_other').value || '';
+
+    const columns = [
+      {
+        width: '34%',
+        stack: [
+          { text: 'Skills', style: 'sideSection', margin: [0, 20, 0, 3] }, // ↑ bigger gap after title
+          ...(skills.length ? skills.map(s => ({ text: s, style: 'sideTight', margin: [0, 0, 0, 0] })) : []), // ↓ tighter per-line
+
+          { text: 'Languages', style: 'sideSection', margin: [0, 20, 0, 3] }, // ↑ more space before + after title
+          ...(langs.length ? langs.map(l => ({ text: l, style: 'sideTight', margin: [0, 0, 0, 3] })) : []),
+
+          { text: 'Additional Info', style: 'sideSection', margin: [0, 20, 0, 3] },
+          { text: other, style: 'sideTight' }
+        ]
+      },
+      {
+        width: '*',
+        stack: [
+          { text: 'Professional Experience', style: 'section', margin: [0, 20, 0, 12] },
+          ...expStack,
+          { text: 'Education', style: 'section', margin: [0, 12, 0, 10] },
+          ...eduStack
+        ]
+      }
+    ];
+
+    return {
+      pageSize: 'A4',
+      pageMargins: [36, 42, 36, 42],
+      content: [
+        headerBlock,
+        { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: '#e5e7eb' }], margin: [0, 6, 0, 10] },
+        { columns, columnGap: 3 }
+      ],
+      styles: {
+        name: { fontSize: 28, bold: true },
+        role: { fontSize: 16, color: '#6b7280', margin: [0, 2, 0, 8] },
+        section: { fontSize: 18, bold: true, color: '#2B6CB0' },
+        sideSection: { fontSize: 18, bold: true, color: '#2B6CB0' }, // smaller sidebar titles
+        jobTitle: { fontSize: 14, bold: true },
+        meta: { fontSize: 10.5, color: '#6b7280' },
+        body: { fontSize: 10.5, lineHeight: 1.2 },
+        sideTight: { fontSize: 10, lineHeight: 1.2 },
+        tight: { fontSize: 10.5, lineHeight: 1.2 }
+      },
+      defaultStyle: { fontSize: 11, lineHeight: 1.2 }
+    };
+  }
+
+  async function printCV() {
+    const docDef = await buildDocDef();
+    pdfMake.createPdf(docDef).download('One-Page-CV.pdf');
+  }
+</script>
